@@ -26,77 +26,41 @@ The optimization algorithm are adaptations of the [pagmo2 library](https://githu
 - [ARGoS3](https://github.com/ilpincy/argos3) (3.0.0-beta48)
 - [argos3-epuck](https://github.com/demiurge-project/argos3-epuck) (v48)
 - [demiurge-epuck-dao](https://github.com/demiurge-project/demiurge-epuck-dao) (master)
+- [NEAT](https://github.com/demiurge-project/ARGoS3-NEAT)
+- [pagmo2](https://github.com/esa/pagmo2) (master)
+- [Eigen3](http://eigen.tuxfamily.org/index.php?title=Main_Page) (v3.3+)
+- [boost](https://www.boost.org/) (1.60+)
+- [MPI](https://www.open-mpi.org/) (for parallelization)
+
+A compiler with C++17 support (e.g. GCC > 7)
 
 ### Compiling ARGoS3-CMAES-XnES:
-    $ git clone https://gitlab.com/julicot9/cmaes_xnes-argos3
-    $ cd cmaes_xnes-argos3
+    $ git clone https://github.com/demiurge-project/ARGoS3-pagmo2
+    $ cd ARGoS3-pagmo2
     $ mkdir build
     $ cd build
     $ cmake ..
     $ make
 
-Once compiled, the `bin/` folder should contain the `automode_main`
+Once compiled, the `bin/` folder should contain the `NEAT-evolution`, `scheduler` and `NEAT-launch`
 executable.
 
 ## How to use
 ### Run a single experiment:
-
+```bash
+./bin/NEAT-launch -c mission.argos -g genome_to_test
+```
 ### Run the design process
-
-# Required
-
-1. Operating System: Linux or MacOSX. Windows is not supported.
-
-2. ARGoS3: The parallel and multi-engine simulator for heterogeneous swarm robotics ARGoS3 is required. Check the following [link](https://github.com/ilpincy/argos3 to install ARGoS3).
-    * On MacOSX, you can install it directly by typing:
-```
-$ brew tap ilpincy/argos3 
-$ brew install argos3
-```
-
-3. OpenMPI: The Message Passing Interface (MPI) library.
-    * on MacOSX:
-```
-$ brew install open-mpi
-```
-    * on Linux (quick install):
-```
-$ sudo apt-get install openmpi-bin openmpi-common openssh-client openssh-server libopenmpi1.3 libopenmpi-dbg libopenmpi-dev
-```
-
-
-# Compiling
-
-After compiling and installing ARGoS. 
-From the neat directory, you need to type the following commands to build everything:
-```bash
-$ mkdir build
-$ cd build
-$ cmake ../
-$ make
-$ cd ..
-```
-
 # Command to launch
-
 1. To launch the Evolutionary Process which uses NEAT and ARGoS (with the epuck robot):
-    * Sequential
-```
-$ build/program/main config/neat.argos config/neatParams.ne config/<<startgenes>>
-```
-where <<startgenes>> is the stater genome file, which contains the definition of the 1st genome: for now, use ''evostickstartgenes'' (all inputs connected to outputs) or ''epuckstartgenes'' (all inputs disconnected).
-   * Parallel
-```
-$ build/program/main config/neat.argos config/neatParams.ne config/<<startgenes>> <<n>> build/program/prog
-```
-where <<startgenes>> is the stater genome file, which contains the definition of the 1st genome: for now, use ''epuckstartgenes'' (all inputs connected to outputs) or ''epuckstartgenes0'' (all inputs disconnected).
-where <<n>> is the nb of processes.
-
-2. To launch a specific genome in ARGoS:
+* Parallel
 ```bash
-$ argos3 -c config/neat-trial.argos
+./bin/NEAT-evolution -g startgen/mlp_choco.ge -m 4 -b bin/scheduler -p params/xn_s0.5_p100.pa -c mission.argos
 ```
-
+where `startgen/mlp_choco.ge` is the stater genome file, which contains the definition of the 1st genome.
+where `-m 4` is the nb of processes
+where `-p params/xn_s0.5_p100.pa` is the parameter file for CMA-ES or XNES
+where `-c mission.argos` is the mission file
 
 # Create your own experiment
 
