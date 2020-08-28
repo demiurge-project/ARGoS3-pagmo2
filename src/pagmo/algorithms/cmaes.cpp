@@ -38,7 +38,6 @@ see https://www.gnu.org/licenses/. */
 #include <vector>
 
 #include <pagmo/algorithm.hpp>
-#include <pagmo/algorithms/cmaes.hpp>
 #include <pagmo/detail/custom_comparisons.hpp>
 #include <pagmo/detail/eigen.hpp>
 #include <pagmo/detail/eigen_s11n.hpp>
@@ -47,6 +46,8 @@ see https://www.gnu.org/licenses/. */
 #include <pagmo/population.hpp>
 #include <pagmo/s11n.hpp>
 #include <pagmo/types.hpp>
+
+#include "cmaes.hpp"
 
 namespace pagmo {
 
