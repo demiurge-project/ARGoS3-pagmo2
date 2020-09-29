@@ -17,10 +17,10 @@ set(pagmo_sources
 
 find_package(Eigen3 REQUIRED)
 message(STATUS "Eigen include directory: ${EIGEN3_INCLUDE_DIR}")
-message(STATUS "Eigen version detected: ${EIGEN3_VERSION}")
+message(STATUS "Eigen found")
 
 add_library(mypagmo SHARED ${pagmo_header} ${pagmo_sources})
-target_link_libraries(mypagmo PUBLIC Eigen3::eigen3)
+target_link_libraries(mypagmo PUBLIC Eigen3::Eigen)
 
 set_property(TARGET mypagmo PROPERTY CXX_STANDARD 17)
 set_property(TARGET mypagmo PROPERTY CXX_STANDARD_REQUIRED YES)
