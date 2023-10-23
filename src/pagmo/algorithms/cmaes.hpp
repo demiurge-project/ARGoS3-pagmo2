@@ -1,4 +1,4 @@
-/* Copyright 2017-2020 PaGMO development team
+/* Copyright 2017-2021 PaGMO development team
 
 This file is part of the PaGMO library.
 
@@ -37,11 +37,14 @@ see https://www.gnu.org/licenses/. */
 #include <tuple>
 #include <vector>
 
+#include <boost/optional.hpp>
+
 #include <pagmo/algorithm.hpp>
 #include <pagmo/detail/eigen.hpp>
 #include <pagmo/detail/visibility.hpp>
 #include <pagmo/population.hpp>
 #include <pagmo/rng.hpp>
+#include <pagmo/s11n.hpp>
 
 #include "../mylogger.hpp"
 
@@ -190,6 +193,9 @@ public:
         return m_gen;
     }
 
+    /// Sets the bfe
+    void set_bfe(const bfe &b);
+
     /// Algorithm name
     /**
      * One of the optional methods of any user-defined algorithm (UDA).
@@ -217,15 +223,16 @@ public:
         return m_log;
     }
 
+private:
     // Object serialization
+    friend class boost::serialization::access;
     template <typename Archive>
     void serialize(Archive &, unsigned);
 
-private:
     // Eigen stores indexes and sizes as signed types, while PaGMO
     // uses STL containers thus sizes and indexes are unsigned. To
     // make the conversion as painless as possible this template is provided
-    // allowing, for example, syntax of the type D(_(i),_(j)) to adress an Eigen matrix
+    // allowing, for example, syntax of the type D(_(i),_(j)) to address an Eigen matrix
     // when i and j are unsigned
     template <typename I>
     static Eigen::DenseIndex _(I n)
@@ -265,6 +272,7 @@ private:
     unsigned m_seed;
     unsigned m_verbosity;
     mutable log_type m_log;
+    boost::optional<bfe> m_bfe;
 };
 
 } // namespace pagmo
