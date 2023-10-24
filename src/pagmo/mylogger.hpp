@@ -4,6 +4,7 @@
 
 #include "../NEAT/genome.h"
 #include <pagmo/population.hpp>
+#include <string>
 
 class logger {
   public:
@@ -19,8 +20,6 @@ class logger {
     bool m_is_genome;
     // Pointer to base genome
     NEAT::Genome* m_startgen;
-    // log file
-    const char* save_file;
 };
 
 #endif

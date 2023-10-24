@@ -218,6 +218,7 @@ population xnes::evolve(population pop) const
     // ----------------------------------------------//
     // HERE WE START THE JUICE OF THE ALGORITHM      //
     // ----------------------------------------------//
+    
     for (decltype(m_gen) gen = 1u; gen <= m_gen; ++gen) {
         // 0 -If the problem is stochastic change seed first
         if (prob.is_stochastic()) {
@@ -293,7 +294,9 @@ population xnes::evolve(population pop) const
                 m_log.emplace_back(gen, prob.get_fevals() - fevals0, pop.get_f()[idx_b][0], dx, df,
                                    sigma);
 
+
                 // Save genome to file
+
                 if (m_logger->is_genome()) {
                     m_logger->save_hist_score(gen, &pop);
                     std::vector<double> mean_val(mean.size());
@@ -327,7 +330,9 @@ population xnes::evolve(population pop) const
         mean = mean + eta_mu * A * d_center;
         A = A * d_A.exp();
         sigma = sigma * std::exp(eta_sigma / 2. * cov_trace / dim_d); // used only for cmaes comparisons
+                                                                      //
     }
+
     if (m_verbosity) {
         std::cout << "Exit condition -- generations = " << m_gen << std::endl;
     }
@@ -397,4 +402,4 @@ void xnes::serialize(Archive &ar, unsigned)
 
 } // namespace pagmo
 
-PAGMO_S11N_ALGORITHM_IMPLEMENT(pagmo::xnes)
+ //PAGMO_S11N_ALGORITHM_IMPLEMENT(pagmo::xnes)

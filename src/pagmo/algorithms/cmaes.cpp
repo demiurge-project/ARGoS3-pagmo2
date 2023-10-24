@@ -492,4 +492,4 @@ void cmaes::serialize(Archive &ar, unsigned)
 
 } // namespace pagmo
 
-PAGMO_S11N_ALGORITHM_IMPLEMENT(pagmo::cmaes)
+//PAGMO_S11N_ALGORITHM_IMPLEMENT(pagmo::cmaes)

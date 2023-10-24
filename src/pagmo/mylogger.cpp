@@ -6,7 +6,6 @@
 logger::logger() {
     m_is_genome = false;
     // log file
-    save_file = "gen/champ_";
 }
 
 logger::logger(bool is_genome, NEAT::Genome* genome) : m_is_genome{is_genome}, m_startgen(genome) {}
@@ -32,11 +31,7 @@ void logger::save_hist_score(int generation, pagmo::population* pop) {
 
 void logger::save_to_file(int generation, double* mean, pagmo::population* pop) {
 
-    char filename[100];
-    strcpy(filename, save_file);
-    strcat(filename, std::to_string(generation).c_str());
-    strcat(filename, ".dat");
-
+    std::string filename = "gen/champ_" + std::to_string(generation) + ".dat";
     std::ofstream os(filename);
 
     if (m_is_genome) {
@@ -44,22 +39,17 @@ void logger::save_to_file(int generation, double* mean, pagmo::population* pop) 
         const double* best_x = pop->get_x()[ind_best].data();
         NEAT::Network* best_net = m_startgen->genesis(m_startgen->genome_id);
         best_net->set_weights((double*)best_x, pop->get_x()[ind_best].size());
-
         NEAT::Genome* best_gen = new NEAT::Genome(best_net);
 
         pagmo::stream(os, "/*Fitness: ", -pop->get_f()[ind_best][0], "*/\n");
 
         best_gen->print_to_file(os);
 
-        char mean_filename[100];
-        strcpy(mean_filename, "gen/mean_");
-        strcat(mean_filename, std::to_string(generation).c_str());
-        strcat(mean_filename, ".dat");
+        std::string mean_filename = "gen/mean_" + std::to_string(generation) + ".dat";
         std::ofstream mean_os(mean_filename);
 
         NEAT::Network* mean_net = m_startgen->genesis(m_startgen->genome_id);
         mean_net->set_weights(mean, pop->get_x()[ind_best].size());
-
         NEAT::Genome* mean_gen = new NEAT::Genome(mean_net);
 
         pagmo::stream(mean_os, "/*Mean value, no fitness value associated.*/\n");
