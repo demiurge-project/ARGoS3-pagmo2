@@ -201,7 +201,9 @@ int main(int argc, char* argv[]) {
         population pop = isl.get_population();
 
         const char* file_best = "best_seen.txt";
-        print_cadidate_gen(pop.champion_x(), pop.champion_f()[0], startgen, file_best);
+        /* print_cadidate_gen(pop.champion_x(), pop.champion_f()[0], startgen, file_best); */
+        print_cadidate_gen(pop[pop.best_idx()], pop.champion_f()[0], startgen, file_best);
+
 
         // Sends a signal to terminate the children.
         std::cout << "Parent: Terminate children" << std::endl;
